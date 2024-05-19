@@ -87,5 +87,13 @@ public class BoardController {
         return boardService.putJoin(boardId, userId);
     }
 
+    @PutMapping("/{boardId}/lock")
+    public ResponseEntity<? super PutLockResponseDto> putLock(
+            @PathVariable Integer boardId,
+            @AuthenticationPrincipal String userId
+    ) {
+        return boardService.putLock(boardId, userId);
+    }
+
 
 }

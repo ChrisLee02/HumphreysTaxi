@@ -315,4 +315,25 @@ public class BoardServiceImpl implements BoardService {
             return ResponseDto.databaseError();
         }
     }
+
+    @Override
+    public ResponseEntity<? super PutLockResponseDto> putLock(Integer boardId, String userId) {
+        try {
+            Optional<BoardEntity> boardEntityOptional = boardRepository.findById(boardId);
+            if (boardEntityOptional.isEmpty()) return PutLockResponseDto.noExistBoard();
+
+            Optional<UserEntity> userEntityOptional = userRepository.findById(userId);
+            if (userEntityOptional.isEmpty()) return PutLockResponseDto.noExistUser();
+            UserEntity userEntity = userEntityOptional.get();
+            BoardEntity boardEntity = boardEntityOptional.get();
+            if (!boardEntity.getWriterId().equals(userId)) return PutLockResponseDto.noPermission();
+
+            boardEntity.setClosed(!boardEntity.isClosed());
+            boardRepository.save(boardEntity);
+            return PutLockResponseDto.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
 }

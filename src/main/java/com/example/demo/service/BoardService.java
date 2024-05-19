@@ -23,4 +23,6 @@ public interface BoardService {
     ResponseEntity<? super PostCommentResponseDto> postComment(PostCommentRequestDto dto, Integer boardId, String userId);
 
     ResponseEntity<? super PutJoinResponseDto> putJoin(Integer boardId, String userId);
+
+    ResponseEntity<? super PutLockResponseDto> putLock(Integer boardId, String userId);
 }
